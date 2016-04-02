@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+
+{% block js %}
+{% endblock %}
+{% from "_form_helpers.html" import render_field %}
+
+{% block main %}
+
+<h1>Sign In</h1>
+
+<div class="container">
+<form action="{{ url_for('login') }}" method="post" enctype="multipart/form-data" class="login">
+       {{form.csrf_token}}
+       {{ form.hidden_tag() }}
+       
+       
+       <div class = "form-group">
+              <p>
+                     {{ render_field(form.username) }}
+                     {% for error in form.username.errors %}
+                      <span style="color: red;">[{{ error }}]</span>
+                      {% endfor %}<br>
+                     
+              </p>
+               
+       </div>
+       
+       <div class = "form-group">
+              <p>
+                     {{ render_field(form.password) }}
+                     {% for error in form.password.errors %}
+                      <span style="color: red;">[{{ error }}]</span>
+                      {% endfor %}<br>
+                     
+              </p>
+               
+       </div>
+       
+       <div>
+              
+        <p>{{ form.remember_me }} Remember Me</p>
+        
+       </div>
+       <input type="submit"  value="Sign In" /> 
+
+
+</form> 
+</div>
+{% endblock %}
