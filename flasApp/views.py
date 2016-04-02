@@ -9,26 +9,21 @@ This file creates your application.
 from flasApp import app, db
 from flask import render_template, request, redirect, url_for,jsonify,g,session
 import flasApp
-# from models import db
 from flask.ext.wtf import Form 
 from wtforms.fields import TextField, PasswordField 
 from wtforms.validators import Required, Email
 import os
 from werkzeug import secure_filename
-
 from models import Users, wishList
 import requests
 import BeautifulSoup
 import urlparse
-
 from flask import render_template, request, redirect, url_for, Flask, flash, jsonify
-
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from flasApp import app, lm
 from flask.ext.login import LoginManager
 import forms
 from forms import SignupForm, LoginForm, wishListForm
-
 import random
 from random import randrange, randint
 import flask_login
@@ -45,17 +40,25 @@ def load_user(id):
 def before_request():
     g.user = current_user
     
+    
+    
+    
 ###
 # Routing for your application.
 ###
 
 @app.route('/')
-def home():
+def root():
     """Render website's home page."""
-    return render_template('home.html')
+    return redirect(url_for('.login'))
     
     
-    
+@app.route('/home')
+def home():
+    if session.has_key('username'):
+        item = Users.query.filter_by(username=session['username']).all()
+        return render_template('home.html', items=item)
+    return redirect(url_for('.login'))
     
     
 
@@ -202,30 +205,7 @@ def WishL():
     return render_template('wishList.html',
                            form=form)
      
-    #  imageList = list()
-    #  image = """<img src="%s"><br />"""
-    #  for img in soup.findAll("img", src=True):
-    #     if "sprite" not in img["src"]:
-    #         if request.headers['Content-Type']=='application/json' or request.method == 'POST':
-    #             imageList.append(image % urlparse.urljoin(url, img["src"]))
-    #             return jsonify(imageList)
-            
-    #         thumbnail_spec = soup.find('link', rel='image_src')
-            
-    #         if thumbnail_spec and thumbnail_spec['href']:
-    #             imageList.append(image % urlparse.urljoin(url, img["src"]))
-                
-                    
-    #                 return "{} {} was added to the database".format(request.form['url'], request.form['itemName'])
-    #     form = wishListForm()                    
-    #     return render_template('wishList.html', form=form)
-                            
-                            
-        
-# @app.route('/images/', methods = ['GET', 'POST'])
-# @login_required
-# # def image_dem():
-
+    
 @app.route('/wishlists/', methods=['GET', 'POST'])
 def wish():
     # list = wishList.query.all()
@@ -272,19 +252,6 @@ def logout():
     
     
     
-@app.route('/profiles/',methods=["POST","GET"])
-def profile_list():
-    profiles = Users.query.all()
-    if request.method == "POST":
-        return jsonify({"age":4, "name":"John"})
-    return render_template('profile_list.html',
-                            profiles=profiles)
-
-@app.route('/profile/<int:id>')
-def profile_view(id):
-    profile = Myprofile.query.get(id)
-    return render_template('profile_view.html',profile=profile)
-
 
 @app.route('/about/')
 def about():
