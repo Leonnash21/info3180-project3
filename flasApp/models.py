@@ -60,14 +60,14 @@ class wishList(db.Model):
     #__tablename__ = 'wishlist'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), index=True)
-    owner = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
+    holder = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
     
     query = db.Query("wishList")
 
-    def __init__(self, title, owner):
+    def __init__(self, title, holder):
         
         self.title = title
-        self.owner = owner
+        self.holder = holder
 
     def __repr__(self):
         return "Wishlist {}".format(self.title)
@@ -77,7 +77,7 @@ class wishList(db.Model):
 
 class WishL(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    owner = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
+    holder = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
     title = db.Column(db.String(64), index=True)
     description = db.Column(db.String, index=True)
     url = db.Column(db.String, index=True)
@@ -85,12 +85,12 @@ class WishL(db.Model):
 
 
     query = db.Query("WishL")
-    def __init__(self, owner, title, description, url, list_id):
+    def __init__(self, holder, title, description, url, list_id):
         
         self.title = title
         self.description = description
         self.url = url
-        self.owner = owner
+        self.holder = holder
         self.list_id = list_id
 
     def __repr__(self):
