@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+
+{% block js %}
+{% endblock %}
+
+
+{% block main %}
+{% include "navigate.html" %}
+<h1>What I Want</h1>
+
+<div class="container">
+	{% for l in lst %}
+		{% for i in l %}
+			<li><p>{{ i.title }}</p>  <p><a href="{{ i.url }}">{{ i.url }}</a></p> </li>
+		{% endfor %}
+	{% endfor %}
+</div>
+{% endblock %}
