@@ -1,6 +1,7 @@
 from flasApp import db 
 from flask.ext.sqlalchemy import SQLAlchemy
 from werkzeug import generate_password_hash, check_password_hash
+from sqlalchemy.schema import ForeignKey
 
 
  
@@ -19,8 +20,8 @@ class Users(db.Model):
  
     query = db.Query("Users")
     
-    def __init__(self, id, username, firstname, lastname, sex, email, password, image):
-        self.id = id
+    def __init__(self, username, firstname, lastname, sex, email, password, image):
+        
         self.username=username
         self.firstname=firstname.title()
         self.lastname=lastname.title()
@@ -58,23 +59,39 @@ class Users(db.Model):
 class wishList(db.Model):
     #__tablename__ = 'wishlist'
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80))
-    url = db.Column(db.String(500), index=True, unique=True)
-    itemName = db.Column(db.String(100))
-    description = db.Column(db.String(1000))
-    image_url = db.Column(db.String(500))
-    
-    
+    title = db.Column(db.String(100), index=True)
+    owner = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
     
     query = db.Query("wishList")
-    
-    def __init__(self, url, itemName,description,image_url,username ):
-        self.url = url
-        self.itemName = itemName
-        self.description = description  
-        self.image_url = image_url
-        self.username= username
+
+    def __init__(self, title, owner):
         
+        self.title = title
+        self.owner = owner
+
     def __repr__(self):
-        return '<WishList %r>' % (self.url)
+        return "Wishlist {}".format(self.title)
+    
+    
+
+
+class WishL(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    owner = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
+    title = db.Column(db.String(64), index=True)
+    description = db.Column(db.String, index=True)
+    url = db.Column(db.String, index=True)
+    list_id = db.Column(db.Integer, ForeignKey('wish_list.id'), nullable=False)
+
+
+    query = db.Query("WishL")
+    def __init__(self, owner, title, description, url, list_id):
         
+        self.title = title
+        self.description = description
+        self.url = url
+        self.owner = owner
+        self.list_id = list_id
+
+    def __repr__(self):
+        return 'Wish {}'.format(self.title)

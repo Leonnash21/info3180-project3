@@ -16,5 +16,5 @@ lm = LoginManager()
 lm.init_app(app)
 # oid = OpenID(app,'/tmp')
 
-from flasApp import views
-from flasApp.models import Users, wishList
+from flasApp import views, models
+from flasApp.models import Users, wishList, WishL

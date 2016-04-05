@@ -6,11 +6,15 @@
 {% from "_form_helpers.html" import render_field %}
 
 {% block main %}
+{% include "navigate.html" %}
 
 <h1>Sign In</h1>
 
 <div class="container">
-<form action="{{ url_for('login') }}" method="post" enctype="multipart/form-data" class="login">
+    <h1>Login</h1>
+    <div>{{ error }}</div>
+    
+<form action="{{ url_for('login') }}" method="POST" enctype="multipart/form-data" class="login">
        {{form.csrf_token}}
        {{ form.hidden_tag() }}
        

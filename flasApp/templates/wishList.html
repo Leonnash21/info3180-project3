@@ -6,32 +6,33 @@
 
 
 {% block main %}
+{% include "nav.html" %}
 <div class="container">
-<form action="{{ url_for('WishL') }}" method="post" enctype="multipart/form-data" class="login">
-       {{form.csrf_token}}
-       
-       <div class = "form-group">
-              <!--url: {{form.url}}-->
-              URL:{{form.url(class_="form-control")}}
-       </div> 
-       
-       <div class = "form-group">
-              <!--itemName: {{form.itemName}}-->
-              ITEM NAME:{{form.itemName(class_="form-control")}}
-       </div>
-       
-        <div class = "form-group">
-              <!--url: {{form.url}}-->
-              Description:{{form.description(class_="form-control")}}
-       </div> 
-       
-        <div class = "form-group">
-              <!--url: {{form.url}}-->
-              Images:{{form.image_url(class_="form-control")}}
-       </div> 
-       
-       <input type="submit" value = "Submit"/>                
+	<h1>Wishlist</h1>
+	<form class="form-horizontal" role="form" method="POST" action="{{ url_for('wishlist',list_id=f) }}" enctype="multipart/form-data">
+		{{ form.hidden_tag() }}
+		<div class="form-group">
+			<div class="col-sm-4">
+				{{ form.title(class_="form-control",placeholder="Title") }}
+			</div>
+		</div>
 
-</form> 
+		<div class="form-group">
+			<div class="col-sm-4">
+				{{ form.description(class_="form-control",placeholder="Description") }}
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<div class="col-sm-4">
+				{{ form.url(class_="form-control",placeholder="Website ") }}
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-10">
+				{{ form.enter(class_="btn btn-default") }}
+			</div>
+		</div>
+	</form>
 </div>
 {% endblock %}

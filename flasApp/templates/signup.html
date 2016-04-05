@@ -6,6 +6,7 @@
 
 
 {% block main %}
+{% include "navigate.html" %}
 
 <div class="container">
 {% if file %}
@@ -13,12 +14,13 @@ file {{file}} uploaded!
 {% endif %}
 </div>
 
+   
+
 <div class="container">
+     <h1>Sign Up</h1>
 <form action="{{ url_for('signup') }}" method="post" enctype="multipart/form-data" class="signup">
        
-       
-       
-       
+       {{ form.hidden_tag() }}
        {{form.csrf_token}}
                   
      
@@ -45,24 +47,59 @@ file {{file}} uploaded!
               SEX:{{form.sex(class_="form-control")}}
        </div>
        
-        <div class = "form-group">
-              <!--email: {{form.email}}-->
-              EMAIL:{{form.email(class_="form-control")}}
-       </div>
        
-        <div class = "form-group">
-              <!--password: {{form.password}}-->
-              PASSWORD:{{form.password(class_="form-control")}}
-       </div>
        
+        <div class="form-group">
+            {% for message in form.email.errors %}
+                <div class="flash"> {{ message }} </div>
+            {% endfor %}
+            
+            <div class="col-sm-4">
+                EMAIL:{{form.email(class_="form-control")}}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {% for message in form.confirm_email.errors %}
+                <div class="flash"> {{ message }} </div>
+            {% endfor %}
+            
+            
+            
+            <div class="col-sm-4">
+                Confirm email:{{form.confirm_email(class_="form-control")}}
+            </div>
+        </div>
+
+       
+       <div class="form-group">
+            {% for message in form.password.errors %}
+                <div class="flash"> {{ message }} </div>
+            {% endfor %}
+            
+            <div class="col-sm-4">
+                PASSWORD:{{form.password(class_="form-control")}}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {% for message in form.confirm_password.errors %}
+                <div class="flash"> {{ message }} </div>
+            {% endfor %}
+            
+            <div class="col-sm-4">
+                 Confirm Password:{{form.confirm_password(class_="form-control")}}
+            </div>
+        </div>
+
          
  
        <div class = "form-group">
-              <dt>Upload Display Image :   
-              {{form.image}}
+           
+             Upload Display Image :   {{form.image}} 
               
               <!--<dd><input type="file" name="file"> -->
-              </dt>
+              
        </div>      
       
       
